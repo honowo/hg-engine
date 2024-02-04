@@ -563,18 +563,7 @@ void ClientPokemonEncount(void *bw, struct CLIENT_PARAM *cp)
     u32 side = cp->client_no, newform, newmon, newshiny;
     struct Party *party = BattleWorkPokePartyGet(bw, side);
     u32 count = party->count;
-#ifdef RANDOMIZED_WILD
-    u16 nickname[11 + 1];
-    u16 species = gf_rand()%151;
-    u16 dummy_p2_1 = GetMonData(PokeParty_GetMemberPointer(BattleWorkPokePartyGet(bw, side), 0), MON_DATA_RESERVED_113, NULL); // hidden ability field
-    struct PartyPokemon* pp = PokeParty_GetMemberPointer(BattleWorkPokePartyGet(bw, side), 0);
-
-    ZeroMonData(pp);
-    PokeParaSetChr(pp, species, GetMonData(pp, MON_DATA_LEVEL, NULL), 32, GetMonData(pp, MON_DATA_RESERVED_114, NULL));
-        
-    pep->monsno = species;
-    pep->form_no = 0;
-#endif
+    
     if (
     // mon's ability is illusion
          GetMonData(PokeParty_GetMemberPointer(BattleWorkPokePartyGet(bw, side), 0), MON_DATA_ABILITY, 0) == ABILITY_ILLUSION
