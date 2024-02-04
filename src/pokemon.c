@@ -1739,7 +1739,7 @@ u32 WildEncSingle(FieldSystem *fsys UNUSED, struct PartyPokemon *pp, void *bw, v
     {
         ret = SetEncountData(pp, 255, encInfo, encArea, 0, 1, bw); // add another mon to the enemy party
     }
-
+    
 #endif
 
     return ret;

@@ -83,4 +83,8 @@
 // comment out the line below to keep the max at 18
 #define EXPAND_PC_BOXES
 
+// RANDOMIZED_WILD will randomize all wild encounters
+// comment out the line below to disable it
+#define RANDOMIZED_WILD
+
 #endif
