@@ -122,46 +122,46 @@ superrodrate 0
 walklevels 2, 3, 2, 3, 3, 3, 2, 2, 4, 4, 4, 4
 
 // morning encounter slots
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
+pokemon SPECIES_PIDGEY
+pokemon SPECIES_SENTRET
+pokemon SPECIES_PIDGEY
+pokemon SPECIES_SENTRET
+pokemon SPECIES_PIDGEY
+pokemon SPECIES_PIDGEY
+pokemon SPECIES_SENTRET
+pokemon SPECIES_SENTRET
+pokemon SPECIES_RATTATA
+pokemon SPECIES_PIDGEY
+pokemon SPECIES_RATTATA
+pokemon SPECIES_PIDGEY
 
 // day encounter slots
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
+pokemon SPECIES_PIDGEY
+pokemon SPECIES_SENTRET
+pokemon SPECIES_PIDGEY
+pokemon SPECIES_SENTRET
+pokemon SPECIES_PIDGEY
+pokemon SPECIES_PIDGEY
+pokemon SPECIES_SENTRET
+pokemon SPECIES_SENTRET
+pokemon SPECIES_RATTATA
+pokemon SPECIES_PIDGEY
+pokemon SPECIES_RATTATA
+pokemon SPECIES_PIDGEY
 
 // night encounter slots
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
-monwithform SPECIES_VENUSAUR, 1
+pokemon SPECIES_HOOTHOOT
+pokemon SPECIES_HOOTHOOT
+pokemon SPECIES_HOOTHOOT
+pokemon SPECIES_HOOTHOOT
+pokemon SPECIES_HOOTHOOT
+pokemon SPECIES_HOOTHOOT
+pokemon SPECIES_RATTATA
+pokemon SPECIES_RATTATA
+pokemon SPECIES_RATTATA
+pokemon SPECIES_HOOTHOOT
+pokemon SPECIES_RATTATA
+pokemon SPECIES_HOOTHOOT
 
 // hoenn encounter slots
 pokemon SPECIES_PLUSLE
