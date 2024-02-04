@@ -482,6 +482,10 @@ BOOL LONG_CALL AddWildPartyPokemon(int inTarget, EncounterInfo *encounterInfo, s
     u8 change_form = 0;
     u8 form_no;
     u16 species;
+#ifdef RANDOMIZED_WILD
+    u16 nickname[11 + 1];
+
+#endif
 
     if (encounterInfo->isEgg == 0 && encounterInfo->ability == ABILITY_COMPOUND_EYES)
     {
@@ -489,6 +493,18 @@ BOOL LONG_CALL AddWildPartyPokemon(int inTarget, EncounterInfo *encounterInfo, s
     }
 
     species = GetMonData(encounterPartyPokemon, MON_DATA_SPECIES, NULL);
+
+#ifdef RANDOMIZED_WILD
+    species = gf_rand()%151;
+    form_no = 0;
+    SetMonData(encounterPartyPokemon, MON_DATA_FORM, (u8 *)&form_no);
+    SetMonData(encounterPartyPokemon, MON_DATA_SPECIES, &species);
+    GetSpeciesNameIntoArray(GetMonData(encounterPartyPokemon, MON_DATA_SPECIES, NULL), 0, nickname);
+    SetMonData(encounterPartyPokemon, MON_DATA_NICKNAME, nickname);
+    RecalcPartyPokemonStats(encounterPartyPokemon);
+    ResetPartyPokemonAbility(encounterPartyPokemon);
+    InitBoxMonMoveset(&encounterPartyPokemon->box);
+#endif
 
     if (space_for_setmondata != 0)
     {
