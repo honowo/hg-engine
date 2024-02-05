@@ -101,6 +101,21 @@ void MakeTrainerPokemonParty(struct BATTLE_PARAM *bp, int num, int heapID)
     u8 pow;
 
     seed_tmp = gf_get_seed();
+    u16 nickname1[11 + 1];
+    u32 species1;
+    u8 form_no1;
+    for(int k = 0; k < bp->poke_party[0]->count; k++) {
+        struct PartyPokemon *pp = &(bp->poke_party[0]->members[0]);
+        species1 = getValidRandomSpecies();
+        form_no1 = getValidRandomSpeciesForm(species1);
+        SetMonData(pp, MON_DATA_FORM, (u8 *)&form_no1);
+        SetMonData(pp, MON_DATA_SPECIES, &species1);
+        GetSpeciesNameIntoArray(GetMonData(pp, MON_DATA_SPECIES, NULL), 0, nickname1);
+        SetMonData(pp, MON_DATA_NICKNAME, nickname1);
+        RecalcPartyPokemonStats(pp);
+        ResetPartyPokemonAbility(pp);
+        InitBoxMonMoveset(&pp->box);
+    }    
 
     PokeParty_Init(bp->poke_party[num], 6);
 
@@ -526,7 +541,6 @@ BOOL LONG_CALL AddWildPartyPokemon(int inTarget, EncounterInfo *encounterInfo, s
     u16 species;
 #ifdef RANDOMIZED_WILD
     u16 nickname[11 + 1];
-    u8 buf[64];
 #endif
 
     if (encounterInfo->isEgg == 0 && encounterInfo->ability == ABILITY_COMPOUND_EYES)
@@ -546,8 +560,6 @@ BOOL LONG_CALL AddWildPartyPokemon(int inTarget, EncounterInfo *encounterInfo, s
     RecalcPartyPokemonStats(encounterPartyPokemon);
     ResetPartyPokemonAbility(encounterPartyPokemon);
     InitBoxMonMoveset(&encounterPartyPokemon->box);
-    sprintf(buf, "Check out this form ID!  %d", form_no);
-    debugsyscall(buf);
 #endif
 
     if (space_for_setmondata != 0)
