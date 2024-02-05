@@ -16,6 +16,8 @@
 #include "../../include/constants/species.h"
 #include "../../include/constants/weather_numbers.h"
 
+#define NELEMS_POKEFORMDATATBL 285
+
 /**
  *  @brief swap two integer values with each other given pointers
  *
@@ -53,6 +55,33 @@ u32 getValidRandomSpecies() {
     if(new_species == 494 || new_species == 495) new_species = SPECIES_SHUCKLE;
     if(new_species > 507 && new_species < 544) new_species += 37 + gf_rand()%(MAX_ID_RANDOMIZED - 506);
     return new_species;
+}
+
+/**
+ *  @brief generates a random valid form for the given species
+ *  
+ *  @param species the species to get a form of
+ *  @return new species
+ */
+u32 getValidRandomSpeciesForm(u32 species) {
+#ifdef RANDOMIZE_WILD_FORMS   
+    u8 form_count = 1;
+    struct FormData *PokeFormDataTbl = sys_AllocMemory(HEAPID_MAIN_HEAP, NELEMS_POKEFORMDATATBL * sizeof(struct FormData));
+    ArchiveDataLoad(PokeFormDataTbl, ARC_CODE_ADDONS, CODE_ADDON_FORM_DATA);
+    for(u32 i=0; i<NELEMS_POKEFORMDATATBL; i++) {
+        if (PokeFormDataTbl[i].species == species) {
+            #if EXCLUDE_MEGAS_FROM_RANDOMIZER
+            if(PokeFormDataTbl[i].file >= SPECIES_ALOLAN_REGIONAL_START) {
+                form_count += 1;
+            }
+            #else
+            form_count += 1;
+            #endif            
+        }
+    }
+    sys_FreeMemoryEz(PokeFormDataTbl);
+#endif
+    return gf_rand()%form_count;
 }
 
 extern u32 gLastPokemonLevelForMoneyCalc;
@@ -497,7 +526,7 @@ BOOL LONG_CALL AddWildPartyPokemon(int inTarget, EncounterInfo *encounterInfo, s
     u16 species;
 #ifdef RANDOMIZED_WILD
     u16 nickname[11 + 1];
-
+    u8 buf[64];
 #endif
 
     if (encounterInfo->isEgg == 0 && encounterInfo->ability == ABILITY_COMPOUND_EYES)
@@ -509,7 +538,7 @@ BOOL LONG_CALL AddWildPartyPokemon(int inTarget, EncounterInfo *encounterInfo, s
 
 #ifdef RANDOMIZED_WILD
     species = getValidRandomSpecies();
-    form_no = 0;
+    form_no = getValidRandomSpeciesForm(species);
     SetMonData(encounterPartyPokemon, MON_DATA_FORM, (u8 *)&form_no);
     SetMonData(encounterPartyPokemon, MON_DATA_SPECIES, &species);
     GetSpeciesNameIntoArray(GetMonData(encounterPartyPokemon, MON_DATA_SPECIES, NULL), 0, nickname);
@@ -517,6 +546,8 @@ BOOL LONG_CALL AddWildPartyPokemon(int inTarget, EncounterInfo *encounterInfo, s
     RecalcPartyPokemonStats(encounterPartyPokemon);
     ResetPartyPokemonAbility(encounterPartyPokemon);
     InitBoxMonMoveset(&encounterPartyPokemon->box);
+    sprintf(buf, "Check out this form ID!  %d", form_no);
+    debugsyscall(buf);
 #endif
 
     if (space_for_setmondata != 0)

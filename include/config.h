@@ -91,4 +91,12 @@
 // absolutely needed to perform randomizing
 #define MAX_ID_RANDOMIZED SPECIES_VOLCANION
 
+// RANDOMIZE_WILD_FORMS tells the randomzier wether to randomize forms
+// comment out the line below to disable it
+#define RANDOMIZE_WILD_FORMS
+
+// EXCLUDE_MEGAS_FROM_RANDOMIZER tells the randomzier wether to exclude mega forms
+// set to FALSE to INCLUDE them
+#define EXCLUDE_MEGAS_FROM_RANDOMIZER FALSE
+
 #endif
