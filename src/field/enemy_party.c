@@ -51,7 +51,7 @@ u32 getValidRandomSpecies() {
     u32 new_species;
     new_species = 1 + gf_rand()%MAX_ID_RANDOMIZED;
     if(new_species == 494 || new_species == 495) new_species = SPECIES_SHUCKLE;
-    if(new_species > 507 && new_species < 544) new_species += 37 + gf_rand()%200;
+    if(new_species > 507 && new_species < 544) new_species += 37 + gf_rand()%(MAX_ID_RANDOMIZED - 506);
     return new_species;
 }
 
