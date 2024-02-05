@@ -42,6 +42,19 @@ void randomize(int arr[], int n) {
     }
 }
 
+/**
+ *  @brief generates a random valid species
+ *
+ *  @return new species
+ */
+u32 getValidRandomSpecies() {
+    u32 new_species;
+    new_species = 1 + gf_rand()%MAX_ID_RANDOMIZED;
+    if(new_species == 494 || new_species == 495) new_species = SPECIES_SHUCKLE;
+    if(new_species > 507 && new_species < 544) new_species += 37 + gf_rand()%200;
+    return new_species;
+}
+
 extern u32 gLastPokemonLevelForMoneyCalc;
 
 /**
@@ -495,7 +508,7 @@ BOOL LONG_CALL AddWildPartyPokemon(int inTarget, EncounterInfo *encounterInfo, s
     species = GetMonData(encounterPartyPokemon, MON_DATA_SPECIES, NULL);
 
 #ifdef RANDOMIZED_WILD
-    species = gf_rand()%151;
+    species = getValidRandomSpecies();
     form_no = 0;
     SetMonData(encounterPartyPokemon, MON_DATA_FORM, (u8 *)&form_no);
     SetMonData(encounterPartyPokemon, MON_DATA_SPECIES, &species);

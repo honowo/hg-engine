@@ -87,4 +87,8 @@
 // comment out the line below to disable it
 #define RANDOMIZED_WILD
 
+// MAX_ID_RANDOMIZED determines the max mon up to which randomize
+// absolutely needed to perform randomizing
+#define MAX_ID_RANDOMIZED SPECIES_VOLCANION
+
 #endif
