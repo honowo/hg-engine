@@ -93,7 +93,7 @@
 
 // RANDOMIZE_TRAINER_PARTIES tells the randomzier wether to randomize enemy trainer party at start of trainer battles
 // comment out the line below to disable it
-#define RANDOMIZE_TRAINER_PARTIES
+#define RANDOMIZE_TRAINER_PARTIES_NOT_SMART
 
 // MAX_ID_RANDOMIZED determines the max mon up to which randomize for wild and trainer parties
 // absolutely needed to perform randomizing

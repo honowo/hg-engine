@@ -120,6 +120,10 @@ void MakeTrainerPokemonParty(struct BATTLE_PARAM *bp, int num, int heapID)
         SetMonData(pp, MON_DATA_NICKNAME, new_player_nickname);
         RecalcPartyPokemonStats(pp);
         ResetPartyPokemonAbility(pp);
+        for (j = 0; j < 4; j++)
+        {
+            SetPartyPokemonMoveAtPos(pp, MOVE_NONE, j);
+        }
         InitBoxMonMoveset(&pp->box);
     }    
     #endif
@@ -214,6 +218,13 @@ void MakeTrainerPokemonParty(struct BATTLE_PARAM *bp, int num, int heapID)
         offset += 2;
         form_no = (species & 0xF800) >> 11;
         species &= 0x07FF;
+        
+        #ifdef RANDOMIZE_TRAINER_PARTIES_NOT_SMART
+        species = getValidRandomSpecies();
+        #ifdef RANDOMIZE_FORMS
+        form_no = getValidRandomSpeciesForm(species);
+        #endif       
+        #endif
 
         // item field - conditional
         if (bp->trainer_data[num].data_type & TRAINER_DATA_TYPE_ITEMS)
