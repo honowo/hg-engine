@@ -64,7 +64,6 @@ u32 getValidRandomSpecies() {
  *  @return new species
  */
 u32 getValidRandomSpeciesForm(u32 species) {
-#ifdef RANDOMIZE_WILD_FORMS   
     u8 form_count = 1;
     struct FormData *PokeFormDataTbl = sys_AllocMemory(HEAPID_MAIN_HEAP, NELEMS_POKEFORMDATATBL * sizeof(struct FormData));
     ArchiveDataLoad(PokeFormDataTbl, ARC_CODE_ADDONS, CODE_ADDON_FORM_DATA);
@@ -80,7 +79,6 @@ u32 getValidRandomSpeciesForm(u32 species) {
         }
     }
     sys_FreeMemoryEz(PokeFormDataTbl);
-#endif
     return gf_rand()%form_count;
 }
 
@@ -101,21 +99,30 @@ void MakeTrainerPokemonParty(struct BATTLE_PARAM *bp, int num, int heapID)
     u8 pow;
 
     seed_tmp = gf_get_seed();
-    u16 nickname1[11 + 1];
-    u32 species1;
-    u8 form_no1;
-    for(int k = 0; k < bp->poke_party[0]->count; k++) {
-        struct PartyPokemon *pp = &(bp->poke_party[0]->members[0]);
-        species1 = getValidRandomSpecies();
-        form_no1 = getValidRandomSpeciesForm(species1);
-        SetMonData(pp, MON_DATA_FORM, (u8 *)&form_no1);
-        SetMonData(pp, MON_DATA_SPECIES, &species1);
-        GetSpeciesNameIntoArray(GetMonData(pp, MON_DATA_SPECIES, NULL), 0, nickname1);
-        SetMonData(pp, MON_DATA_NICKNAME, nickname1);
+
+    #ifdef RANDOMIZE_PLAYER_PARTY_TRAINERS
+    u16 new_player_nickname[11 + 1];
+    u32 new_player_species;
+    u8 new_player_form_no;
+    struct PartyPokemon *pp;
+    struct Party *party = bp->poke_party[0];
+    s32 player_poke_count = bp->poke_party[0]->count;
+    
+    for(int k = 0; k < player_poke_count; k++) {
+        pp = PokeParty_GetMemberPointer(party, k); // ToDo : WHY da F does setting it to k here crash? it properly traverses count
+        new_player_species = getValidRandomSpecies();
+        #ifdef RANDOMIZE_FORMS
+        new_player_form_no = getValidRandomSpeciesForm(new_player_species);
+        SetMonData(pp, MON_DATA_FORM, (u8 *)&new_player_form_no);
+        #endif
+        SetMonData(pp, MON_DATA_SPECIES, &new_player_species);
+        GetSpeciesNameIntoArray(GetMonData(pp, MON_DATA_SPECIES, NULL), 0, new_player_nickname);
+        SetMonData(pp, MON_DATA_NICKNAME, new_player_nickname);
         RecalcPartyPokemonStats(pp);
         ResetPartyPokemonAbility(pp);
         InitBoxMonMoveset(&pp->box);
     }    
+    #endif
 
     PokeParty_Init(bp->poke_party[num], 6);
 
@@ -539,9 +546,9 @@ BOOL LONG_CALL AddWildPartyPokemon(int inTarget, EncounterInfo *encounterInfo, s
     u8 change_form = 0;
     u8 form_no;
     u16 species;
-#ifdef RANDOMIZED_WILD
+    #ifdef RANDOMIZED_WILD
     u16 nickname[11 + 1];
-#endif
+    #endif
 
     if (encounterInfo->isEgg == 0 && encounterInfo->ability == ABILITY_COMPOUND_EYES)
     {
@@ -550,17 +557,19 @@ BOOL LONG_CALL AddWildPartyPokemon(int inTarget, EncounterInfo *encounterInfo, s
 
     species = GetMonData(encounterPartyPokemon, MON_DATA_SPECIES, NULL);
 
-#ifdef RANDOMIZED_WILD
+    #ifdef RANDOMIZED_WILD
     species = getValidRandomSpecies();
-    form_no = getValidRandomSpeciesForm(species);
+    #ifdef RANDOMIZE_FORMS
+    form_no = getValidRandomSpeciesForm(species);    
     SetMonData(encounterPartyPokemon, MON_DATA_FORM, (u8 *)&form_no);
+    #endif
     SetMonData(encounterPartyPokemon, MON_DATA_SPECIES, &species);
     GetSpeciesNameIntoArray(GetMonData(encounterPartyPokemon, MON_DATA_SPECIES, NULL), 0, nickname);
     SetMonData(encounterPartyPokemon, MON_DATA_NICKNAME, nickname);
     RecalcPartyPokemonStats(encounterPartyPokemon);
     ResetPartyPokemonAbility(encounterPartyPokemon);
     InitBoxMonMoveset(&encounterPartyPokemon->box);
-#endif
+    #endif
 
     if (space_for_setmondata != 0)
     {
