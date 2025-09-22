@@ -240,7 +240,7 @@ void ClientPokemonEncount(void *bw, struct CLIENT_PARAM *cp)
     u32 side = cp->client_no, newform, newmon, newshiny;
     struct Party *party = BattleWorkPokePartyGet(bw, side);
     u32 count = party->count;
-
+    
     if (
     // mon's ability is illusion
          GetMonData(Party_GetMonByIndex(BattleWorkPokePartyGet(bw, side), 0), MON_DATA_ABILITY, 0) == ABILITY_ILLUSION
